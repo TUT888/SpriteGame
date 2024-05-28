@@ -1,0 +1,14 @@
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\bin\Debug\net8.0\SpriteGame.exe
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\bin\Debug\net8.0\SpriteGame.deps.json
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\bin\Debug\net8.0\SpriteGame.runtimeconfig.json
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\bin\Debug\net8.0\SpriteGame.dll
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\bin\Debug\net8.0\SpriteGame.pdb
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\SpriteGame.GeneratedMSBuildEditorConfig.editorconfig
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\SpriteGame.AssemblyInfoInputs.cache
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\SpriteGame.AssemblyInfo.cs
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\SpriteGame.csproj.CoreCompileInputs.cache
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\SpriteGame.dll
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\refint\SpriteGame.dll
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\SpriteGame.pdb
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\SpriteGame.genruntimeconfig.cache
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\ref\SpriteGame.dll
