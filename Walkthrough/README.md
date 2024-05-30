@@ -7,11 +7,11 @@ This is a walkthrough of creating an **AnimatedItemCatch** game made by C# Splas
 This walkthrough includes 5 main parts: introduction, game overview, implementation, conclusion and acknowledgement.
 
 - In the introduction, I will:
-    1. Provide basic information about Animation in SplashKit: frame, duration, bitmap, cell, animation script.
-    2. Provide basic information about Sprite in SplashKit: step by step how to animate a Sprite, together with example code. 
+    - Provide basic information about Animation in SplashKit: frame, duration, bitmap, cell, animation script.
+    - Provide basic information about Sprite in SplashKit: step by step how to animate a Sprite, together with example code. 
 - In the game overview, I will:
-    1. Provide an general game ideas of the **AnimatedItemCatch** game.
-    2. Provide an overview of the classes and logic in **AnimatedItemCatch game**.
+    - Provide an general game ideas of the **AnimatedItemCatch** game.
+    - Provide an overview of the classes and logic in **AnimatedItemCatch game**.
 - In the implementation, I will implement all the classes for the game.
 
 In general, this walkthrough implements some features that relates to Sprite:
@@ -24,6 +24,8 @@ In general, this walkthrough implements some features that relates to Sprite:
 - Use Sprite’s API to check collision between Player and Items (Bomb and Apple), followed by different actions:
     - **Bombs** will explodes when hitting the player, animation will switch from IdleAnimation to ExplodeAnimation. After the ExplodeAnimation ends, the Bomb disappear.
     - **Apples** will disappear immediately when hitting the player, and has no animation.
+
+Screencast of the game while running can be found at: [Game with animation using Sprite in SplashKit - C#](https://youtu.be/l3gkwFXfVLA)
 
 ![GameWindow](images/GameWindow.png)
 
