@@ -12,3 +12,4 @@ D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\refint\SpriteGa
 D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\SpriteGame.pdb
 D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\SpriteGame.genruntimeconfig.cache
 D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\ref\SpriteGame.dll
+D:\Deakin\SIT771_OOP\HighDistinction\SpriteGame\obj\Debug\net8.0\SpriteGame.sourcelink.json

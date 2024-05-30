@@ -3,25 +3,25 @@ using SplashKitSDK;
 public class Player {
     // Fields for state & sprite control
     // * _CurrentSprite: currently using Sprite
-    // * currentState: stores action state, e.g. idle, run left, run right
-    // * currenSpriteName: refer to the name defined while create sprite
-    // * currentAnimationName: refer to the identifier defined in corresponding text script
+    // * _CurrentState: stores action state, e.g. idle, run left, run right
+    // * _CurrentSpriteName: refer to the name defined while create sprite
+    // * _CurrentAnimationName: refer to the identifier defined in corresponding text script
     private Sprite _CurrentSprite;
-    private string currentState;
-    private string currentSpriteName { get { return currentState + "Sprite"; } }
-    private string currentAnimationName { get { return currentState + "Animation"; } }
+    private string _CurrentState;
+    private string _CurrentSpriteName { get { return _CurrentState + "Sprite"; } }
+    private string _CurrentAnimationName { get { return _CurrentState + "Animation"; } }
     
-    // Other fields (removed X, Y since Sprite has its own X, Y)
+    // Controlling the speed
     private const float SPEED = 5.0F;
-    public float Width { get { return _CurrentSprite.Width; } }
-    public float Height { get { return _CurrentSprite.Height; } }
 
-    // Extra fields
-    public float LAND_HEIGHT { get; set; }
-    public bool Quit { get; private set; }
+    // Storing game progress
     public int Lives { get; private set; }
     public int TimeRecord { get; private set; }
     public int Scores { get; private set; }
+
+    // Extra
+    public float LAND_HEIGHT { get; set; }
+    public bool Quit { get; private set; }
 
     public Player(Window gameWindow) {
         // Defining height of the land that the player stands on
@@ -33,15 +33,15 @@ public class Player {
 
         // Create sprite
         CreateSprite();
-        // Set default state, which is idle
-        currentState = "IdleRight";
-        _CurrentSprite = SplashKit.SpriteNamed(currentSpriteName);
+        // Set default state, which is idle right
+        _CurrentState = "IdleRight";
+        _CurrentSprite = SplashKit.SpriteNamed(_CurrentSpriteName);
         // Initialize the position for all Sprite
-        SetPostionX((gameWindow.Width - Width) / 2);
-        SetPostionY((gameWindow.Height - Height) - LAND_HEIGHT);
+        SetPostionX((gameWindow.Width - _CurrentSprite.Width) / 2);
+        SetPostionY((gameWindow.Height - _CurrentSprite.Height) - LAND_HEIGHT);
 
         // Start default animation
-        _CurrentSprite.StartAnimation(currentAnimationName);
+        _CurrentSprite.StartAnimation(_CurrentAnimationName);
     }
 
     public void CreateSprite() {
@@ -66,7 +66,7 @@ public class Player {
     }
 
 
-    // ====== Set values for Sprites ====== //
+    // ====== Set position for Sprites ====== //
     public void SetPostionX(float newX) {
         SplashKit.SpriteNamed("IdleLeftSprite").X = newX;
         SplashKit.SpriteNamed("IdleRightSprite").X = newX;
@@ -81,28 +81,35 @@ public class Player {
         SplashKit.SpriteNamed("RunRightSprite").Y = newY;
     }
 
+    // ====== Set state for Sprite ====== //
     public void SetState(string newState) {
-        currentState = newState;
-        _CurrentSprite = SplashKit.SpriteNamed(currentSpriteName);
-        _CurrentSprite.StartAnimation(currentAnimationName);
+        _CurrentState = newState;
+        _CurrentSprite = SplashKit.SpriteNamed(_CurrentSpriteName);
+        _CurrentSprite.StartAnimation(_CurrentAnimationName);
     }
 
     // ====== Essential methods to be call ====== //
     // Sequential flow: Handle input -> Update -> Draw
     public void HandleInput() {
+        // Speed up for dashing
+        float actual_speed = SPEED;
+        if ( SplashKit.KeyDown(KeyCode.SpaceKey) ) {
+            actual_speed *= 2;
+        } 
+
         // Basic move
         if ( SplashKit.KeyDown(KeyCode.LeftKey) ) {
             // Only start RunAnimation if it is not processing
-            if ( currentState!="RunLeft" ) {
+            if ( _CurrentState!="RunLeft" ) {
                 SetState("RunLeft");
             }
-            SetPostionX(_CurrentSprite.X - SPEED);
+            SetPostionX(_CurrentSprite.X - actual_speed);
         } else if ( SplashKit.KeyDown(KeyCode.RightKey) ) {
             // Only start RunAnimation if it is not processing
-            if ( currentState!="RunRight" ) {
+            if ( _CurrentState!="RunRight" ) {
                 SetState("RunRight");
             }
-            SetPostionX(_CurrentSprite.X + SPEED);
+            SetPostionX(_CurrentSprite.X + actual_speed);
         } else if ( SplashKit.KeyReleased(KeyCode.LeftKey) ) {
             // Back to idle left if release left key
             SetState("IdleLeft");
@@ -118,14 +125,6 @@ public class Player {
     }
 
     public void Update() {
-        // Check if RunAnimation ended, back to idle
-        if ( _CurrentSprite.AnimationHasEnded ) {
-            if ( currentState=="RunLeft" ) {
-                SetState("IdleLeft");
-            } else {
-                SetState("IdleRight");
-            }
-        }
         // Update animation
         _CurrentSprite.UpdateAnimation();
     }
@@ -147,20 +146,19 @@ public class Player {
         if ( _CurrentSprite.X < GAP_left ) {
             _CurrentSprite.X = GAP_left;
         }
-        if ( (_CurrentSprite.X+Width) > GAP_right ) {
-            _CurrentSprite.X = GAP_right - Width;
+        if ( (_CurrentSprite.X+_CurrentSprite.Width) > GAP_right ) {
+            _CurrentSprite.X = GAP_right - _CurrentSprite.Width;
         }
         if ( _CurrentSprite.Y < GAP_top ) {
             _CurrentSprite.Y = GAP_top;
         }
-        if ( (_CurrentSprite.Y+Height) > GAP_bottom ) {
-            _CurrentSprite.Y = GAP_bottom - Height;
+        if ( (_CurrentSprite.Y+_CurrentSprite.Height) > GAP_bottom ) {
+            _CurrentSprite.Y = GAP_bottom - _CurrentSprite.Height;
         }
     }
 
     public bool ReceiveItem(Item otherItem) {
         // Check if the item fall on the player
-        // return _PlayerBitmap.CircleCollision(X, Y, other.CollisionCircle);
         return _CurrentSprite.SpriteCollision(otherItem._ItemSprite);
     }
 
@@ -172,7 +170,7 @@ public class Player {
         }
     }
 
-    public void increaseScore() {
+    public void IncreaseScore() {
         Scores += 1;
     }
 

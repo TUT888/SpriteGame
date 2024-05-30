@@ -2,15 +2,9 @@ SplashKit Animation
 
 // Define the frames: frame identifier(s), cell number(s), duration, next frame
 // If next frame is not defined => no continuous animations (stopped after run all frame)
-// f:[0-5],[0-5],60,5
-f:0,0,12,1
-f:1,1,12,2
-f:2,2,12,3
-f:3,3,12,4
-f:4,4,12,5
-f:5,5,12,6
-f:6,6,12,7
-f:7,7,12,0
+f:[0-8],[0-8],6,0
+f:[9-24],[9-24],3,
 
 // Animation dentifiers: identifier name, starting frame
-i:RunAnimation,0
+i:IdleAnimation,0
+i:ExplodeAnimation,9

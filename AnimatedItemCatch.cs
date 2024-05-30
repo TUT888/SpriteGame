@@ -1,25 +1,27 @@
 using SplashKitSDK;
 
-public class GameWithAnimation {
+public class AnimatedItemCatch {
+    // Game objects
     private Player _Player;
-    private Window _GameWindow;
     private List<Item> _Items;
-    public bool Quit { get { return _Player.Quit; } }
+    // Game information
+    private Window _GameWindow;
     private SplashKitSDK.Timer _GameTimer;
+    // Game progress
+    public bool Quit { get { return _Player.Quit; } }
     public int TimeRecord { get { return _Player.TimeRecord; } }
     public int Scores { get { return _Player.Scores; } }
 
-    public GameWithAnimation(Window gameWindow) {
+    public AnimatedItemCatch(Window gameWindow) {
         _GameWindow = gameWindow;
 
         _GameTimer = new SplashKitSDK.Timer("Game Timer");
         _GameTimer.Start();
 
+        // Initialize Player and Items
         _Player = new Player(_GameWindow);
-        // Initialize Item
         _Items = new List<Item>();
-        // _Items.Add(RandomItem());
-        _Items.Add(new Item(_GameWindow));
+        _Items.Add(RandomItem());
     }
 
     // ====== Essential methods to be call ====== //
@@ -31,23 +33,23 @@ public class GameWithAnimation {
 
     // Update data
     public void Update() {
+        // Update the Player's data
         _Player.Update();
-        
         _Player.UpdateProgress(_GameTimer);
-        // Update all Items and check collision
+
+        // Add new item, but limit the total items to 8
+        if ( _Items.Count < 8 && TimeRecord%_Items.Count==0 && TimeRecord!=0 ) {
+            _Items.Add(RandomItem());
+        }
+        // Update all Item's data: their location and animation
         foreach (Item Item in _Items) {
             Item.Update();
         }
 
+        // Check Collision
         CheckCollision();
-        // Limit the amount of Items
-        if ( _Items.Count < 8 && TimeRecord%_Items.Count==0 && TimeRecord!=0 ) {
-            // _Items.Add(RandomItem());
-            _Items.Add(new Item(_GameWindow));
-        }
     }
 
-    // Ok giong
     public void Draw() {
         // Clear window to draw new frame
         _GameWindow.Clear(Color.White);
@@ -64,38 +66,40 @@ public class GameWithAnimation {
         _GameWindow.Refresh(60);
     }
 
-    // New change in RandomItem()
-    // public Item RandomItem() {
-    //     int rndNum = SplashKit.Rnd(2);
-    //     Item Item;
-    //     if ( rndNum==0 ) {
-    //         Item = new Bomb(_GameWindow);
-    //     } else {
-    //         Item = new Apple(_GameWindow);
-    //     }
-    //     return Item;
-    // }
+    public Item RandomItem() {
+        int rndNum = SplashKit.Rnd(2);
+        Item Item;
+        if ( rndNum==0 ) {
+            Item = new Bomb(_GameWindow);
+        } else {
+            Item = new Apple(_GameWindow);
+        }
+        return Item;
+    }
 
     private void CheckCollision() {
         List<Item> itemsToBeRemoved = new List<Item>();
         // Loop all items
         foreach (Item Item in _Items) {
-            // Check if the player receive any item
-            // if ( _Player.ReceiveItem(Item) ) {
-            //     itemsToBeRemoved.Add(Item);
-            //     // Check if the item is danger
-            //     if ( Item.isDanger ) {
-            //         _Player.ReduceLive();
-            //     } else {
-            //         _Player.increaseScore();
-            //     }
-            // } else 
-            if ( _Player.ReceiveItem(Item) ) {
-                Console.WriteLine("Received");
+            // Check if the player receive any falling item
+            if ( Item.IsFalling && _Player.ReceiveItem(Item) ) {
+                if ( Item.Explode() ) {
+                    // If the item explode, reduce the player's live 
+                    // and explosion animation will be start, item will be remove after
+                    _Player.ReduceLive();
+                } else {
+                    // If the item not explode, increase the player's score
+                    // and immediately remove this item
+                    _Player.IncreaseScore();
+                    itemsToBeRemoved.Add(Item);
+                }
+            }
+            // else, remove item if it is offscreen
+            else if ( Item.IsOffScreen(_GameWindow) ) {
                 itemsToBeRemoved.Add(Item);
-            } else if ( Item.IsOffScreen(_GameWindow) ) {
-                // Also remove item if it is offscreen
-                Console.WriteLine("Out of screen");
+            } 
+            // else, remove the item that has complete the explosion animation
+            else if ( !Item.IsFalling && Item._ItemSprite.AnimationHasEnded ) {
                 itemsToBeRemoved.Add(Item);
             }
         }

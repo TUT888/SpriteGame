@@ -9,15 +9,15 @@ namespace SpriteGame
         {
             Window gameWindow = new Window("Game With Sprite", 1200, 600);
 
-            GameWithAnimation gameWithAnimation = new GameWithAnimation(gameWindow);
+            AnimatedItemCatch animatedItemCatch = new AnimatedItemCatch(gameWindow);
 
-            while ( !gameWithAnimation.Quit ) {
+            while ( !animatedItemCatch.Quit ) {
                 // Let SplashKit to process event
                 SplashKit.ProcessEvents();
 
-                gameWithAnimation.HandleInput();
-                gameWithAnimation.Update();
-                gameWithAnimation.Draw();
+                animatedItemCatch.HandleInput();
+                animatedItemCatch.Update();
+                animatedItemCatch.Draw();
 
                 if ( gameWindow.CloseRequested ) {
                     break;
@@ -25,28 +25,8 @@ namespace SpriteGame
             }
             gameWindow.Close();
 
-            // Load bitmap & define the cells
-            // Cell detail: cell width, height, cols, rows, count
-            // Bitmap wizard = SplashKit.LoadBitmap("WitchIdle", "B_witch_idle_x3.png");
-            // wizard.SetCellDetails(96, 144, 1, 6, 6);
-            
-            // // Load the animation script
-            // AnimationScript _IdleAnimationScript = SplashKit.LoadAnimationScript("WitchIdleScript", "witch_idle.txt");
-
-            // // Instead of create animation, we use sprite
-            // // Animation lizardAnimation = danceScript.CreateAnimation("Idle");
-            // Sprite _WizardSprite = SplashKit.CreateSprite(wizard, _IdleAnimationScript);
-
-            // _WizardSprite.StartAnimation("IdleAnimation");
-            // while(! gameWindow.CloseRequested) {
-            //     SplashKit.ProcessEvents();
-            //     gameWindow.Clear(Color.White);
-            //     _WizardSprite.UpdateAnimation();
-            //     _WizardSprite.Draw(50, 50);
-
-            //     gameWindow.Refresh(60);
-                
-            // }
+            Console.WriteLine($"Time record:    {animatedItemCatch.TimeRecord} second(s)");
+            Console.WriteLine($"Score record:   {animatedItemCatch.Scores} apple(s)");
         }
     }
 }
