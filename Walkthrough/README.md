@@ -25,10 +25,10 @@ In general, this walkthrough implements some features that relates to Sprite:
     - **Bombs** will explodes when hitting the player, animation will switch from IdleAnimation to ExplodeAnimation. After the ExplodeAnimation ends, the Bomb disappear.
     - **Apples** will disappear immediately when hitting the player, and has no animation.
 
-![Untitled](images/GameWindow.png)
+![GameWindow](images/GameWindow.png)
 
-<details>
-    <summary>Table of Contents</summary>
+<summary>
+    <h3>Table of Contents</h3>
     <ol>
         <li>
             <a href="#1-introduction">Introduction</a>
@@ -50,15 +50,7 @@ In general, this walkthrough implements some features that relates to Sprite:
         <li><a href="#4-conclusion">Conclusion</a></li>
         <li><a href="#5-acknowledgements">Acknowledgement</a></li>
     </ol>
-</details>
-
-<aside>
-💬 In the implementation part, this tutorial will use some free game assets from [itch.io](https://itch.io/game-assets)
-
-- For Player’s Sprite, thanks **9EO** for sharing free asset: [Chick-Boy Animation Pack by 9E0 (itch.io)](https://9e0.itch.io/chick-boy)
-- For Apple’s Sprite, thanks **elenetari** for sharing free asset: [apple sprites by elenetari (itch.io)](https://elenetari.itch.io/apple-sprites)
-- For Bomb’s Sprite, thanks **AleezuX** for sharing free asset: [Free Sprite BOOM by AleezuX (itch.io)](https://aleezux.itch.io/free-sprite-bom)
-</aside>
+</summary>
 
 # 1. Introduction
 
@@ -101,6 +93,13 @@ To create animation, we should understand that:
         ```
         i:IdleAnimation,0
         i:ExplodeAnimation,9
+        ```
+        
+    - Define the sound effect to be played when animating a specific frame. Sound effects should be started with “**s:**”, followed by the linked frame identifer, sound name and file path. For example, we want the explosion sound to be played when the ExplodeAnimation start, which is frame 9, the script can be:
+        
+        ```
+        // Sound effects: linked frame identifier, sound name, filepath
+        s:9,ExplosionSound,explosion.mp3
         ```
         
 
@@ -219,6 +218,18 @@ Overall key features/concept of the **`AnimatedItemCatch`** class, which will 
 
 # 3. Implementation
 
+<aside>
+💬 In the implementation part, this tutorial will use:
+
+- Some free game assets from [itch.io](https://itch.io/game-assets)
+    - For Player’s Sprite, thanks **9EO** for sharing free asset: [Chick-Boy Animation Pack by 9E0 (itch.io)](https://9e0.itch.io/chick-boy)
+    - For Apple’s Sprite, thanks **elenetari** for sharing free asset: [apple sprites by elenetari (itch.io)](https://elenetari.itch.io/apple-sprites)
+    - For Bomb’s Sprite, thanks **AleezuX** for sharing free asset: [Free Sprite BOOM by AleezuX (itch.io)](https://aleezux.itch.io/free-sprite-bom)
+- Some sound effects from [Pixabay](https://pixabay.com/sound-effects/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=103779)
+    - For the Apple’s sound (*receive-apple.mp3),* refer to “Take Item Sound Effect” by [zennnsounds](https://pixabay.com/users/zennnsounds-35538808/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163073) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163073)
+    - For the Bomb’s sound (*explosion.mp3*), refer to “small explosion” by [Pixabay](https://pixabay.com/sound-effects/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=103779)
+</aside>
+
 Before going to implementation, we need to prepare the bitmaps and animation scripts.
 
 - Bitmaps can be found on [itch.io](http://itch.io). This website provides game assets for free or paid.
@@ -266,6 +277,9 @@ Before going to implementation, we need to prepare the bitmaps and animation scr
         // Animation dentifiers: identifier name, starting frame
         i:IdleAnimation,0
         i:ExplodeAnimation,9
+        
+        // Sound effects: linked frame identifier, sound name, filepath
+        s:9,ExplosionSound,explosion.mp3
         ```
         
 
@@ -658,7 +672,7 @@ This class is where we manage the game, including the objects and their interact
     ```
     
 - About the methods/constructor, they should include:
-    - **The constructor** that initialize the fields:
+    - **The constructor** that initialize the fields, and load the apple sound effect since apples don’t have animation, we have to play the sound manually later:
     
     ```csharp
     public AnimatedItemCatch(Window gameWindow) {
@@ -671,6 +685,9 @@ This class is where we manage the game, including the objects and their interact
         _Player = new Player(_GameWindow);
         _Items = new List<Item>();
         _Items.Add(RandomItem());
+        
+        // Load a sound effect
+        SplashKit.LoadSoundEffect("ReceiveAppleSound", "receive-apple.mp3");
     }
     ```
     
@@ -750,8 +767,8 @@ This class is where we manage the game, including the objects and their interact
             - Create a new empty list that contains the items to be removed
             - Loop for all items in the `_Items` :
                 - If the player receive the item, and the item is still in falling status, we will call the `Item.Explode()` method. This method will:
-                    - Return *true* if the item is a **`Bomb`** , and the **`Bomb`** will stop falling and start its “ExplodeAnimation”. As a result, the player’s live ****will be reduced, the item will be remove later (after the ExplodeAnimation ends).
-                    - Return *false* if the item is an **`Apple`**. As a result, the player’s score will be increase, and this item will be remove, the item will be remove immediately.
+                    - Return *true* if the item is a **`Bomb`** , and the **`Bomb`** will stop falling and start its “ExplodeAnimation”. As a result, the player’s live ****will be reduced, the item will be remove later (after the ExplodeAnimation ends). When the bomb explodes, the linked sound effect in animation script will be automatically played.
+                    - Return *false* if the item is an **`Apple`**. As a result, the player’s score will be increase, this item will be immediately, and a sound effect will be played.
                 - Or, if the item is out of screen, we remove the item immediately.
                 - Or, if the item exploded (already stopped falling and completed the explosion animation), we also remove this item now.
             - Loop for all items to be removed, remove item from `_Items` one by one.
@@ -772,6 +789,8 @@ This class is where we manage the game, including the objects and their interact
                             // and immediately remove this item
                             _Player.IncreaseScore();
                             itemsToBeRemoved.Add(Item);
+                            // Play the sound effect
+                            SplashKit.PlaySoundEffect("ReceiveAppleSound");
                         }
                     }
                     // else, remove item if it is offscreen
@@ -831,6 +850,8 @@ public static void Main()
 
 # 4. Conclusion
 
+Screencast of the game while running can be found at: [Game with animation using Sprite in SplashKit - C#](https://youtu.be/l3gkwFXfVLA)
+
 In conclusion, this tutorial provides:
 
 - Some basic knowledge about Sprite and Animation in SplashKit, as well as the syntax in C# programming language.
@@ -851,3 +872,8 @@ Game assets are downloaded from [itch.io](https://itch.io/game-assets):
 - For Player’s Sprite, thanks **9EO** for sharing free asset: [Chick-Boy Animation Pack by 9E0 (itch.io)](https://9e0.itch.io/chick-boy)
 - For Apple’s Sprite, thanks **elenetari** for sharing free asset: [apple sprites by elenetari (itch.io)](https://elenetari.itch.io/apple-sprites)
 - For Bomb’s Sprite, thanks **AleezuX** for sharing free asset: [Free Sprite BOOM by AleezuX (itch.io)](https://aleezux.itch.io/free-sprite-bom)
+
+Sound effects are downloaded from [Pixabay](https://pixabay.com/sound-effects/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=103779):
+
+- For the Apple’s sound (*receive-apple.mp3),* refer to “Take Item Sound Effect” by [zennnsounds](https://pixabay.com/users/zennnsounds-35538808/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163073) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163073)
+- For the Bomb’s sound (*explosion.mp3*), refer to “small explosion” by [Pixabay](https://pixabay.com/sound-effects/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=103779)

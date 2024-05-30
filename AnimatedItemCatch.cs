@@ -22,6 +22,9 @@ public class AnimatedItemCatch {
         _Player = new Player(_GameWindow);
         _Items = new List<Item>();
         _Items.Add(RandomItem());
+
+        // Load a sound effect
+        SplashKit.LoadSoundEffect("ReceiveAppleSound", "receive-apple.mp3");
     }
 
     // ====== Essential methods to be call ====== //
@@ -92,6 +95,8 @@ public class AnimatedItemCatch {
                     // and immediately remove this item
                     _Player.IncreaseScore();
                     itemsToBeRemoved.Add(Item);
+                    // Play the sound effect
+                    SplashKit.PlaySoundEffect("ReceiveAppleSound");
                 }
             }
             // else, remove item if it is offscreen

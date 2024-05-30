@@ -8,3 +8,6 @@ f:[9-24],[9-24],3,
 // Animation dentifiers: identifier name, starting frame
 i:IdleAnimation,0
 i:ExplodeAnimation,9
+
+// Sound effects: linked frame identifier, sound name, filepath
+s:9,ExplosionSound,explosion.mp3
