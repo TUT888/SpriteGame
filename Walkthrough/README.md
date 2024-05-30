@@ -1,6 +1,6 @@
-# Walkthrough - Game with Sprites and Animation using C# SplashKit
-
 <a name="readme-top"></a>
+
+# Walkthrough - Game with Sprites and Animation using C# SplashKit
 
 SplashKit is a powerful tool that we can develop different types of games by utilizing OOP concepts together with their packages. 
 
