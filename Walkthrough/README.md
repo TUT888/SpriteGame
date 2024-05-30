@@ -1,5 +1,7 @@
 # Walkthrough - Game with Sprites and Animation using C# SplashKit
 
+<a name="readme-top"></a>
+
 SplashKit is a powerful tool that we can develop different types of games by utilizing OOP concepts together with their packages. 
 
 This is a walkthrough of creating an **AnimatedItemCatch** game made by C# SplashKit, **using Sprite to handle player’s movement and animation**.
@@ -29,25 +31,26 @@ Screencast of the game while running can be found at: [Game with animation using
 
 ![GameWindow](images/GameWindow.png)
 
+# Table of Contents
 <summary>
     <h3>Table of Contents</h3>
     <ol>
         <li>
             <a href="#1-introduction">Introduction</a>
-            <ol>
+            <ul>
                 <li><a href="#11-animation-in-splashkit-frame-duration-bitmap-cell-animation-script">Animation in SplashKit</a></li>
                 <li><a href="#12-sprite-in-splashkit">Sprite in SplashKit</a></li>
-            </ol>
+            </ul>
         </li>
         <li><a href="#2-game-overview">Game overview</a></li>
         <li>
             <a href="#3-implementation">Implementation</a>
-            <ol>
+            <ul>
                 <li><a href="#31-the-player-class">The Player Class</a></li>
                 <li><a href="#32-the-item-abstract-class-and-its-child-class">The Item Abstract Class and its Child Classes</a></li>
                 <li><a href="#33-the-animateditemcatch-class">The AnimatedItemCatch Class</a></li>
                 <li><a href="#34-the-main-program">The Main Program</a></li>
-            </ol>
+            </ul>
         </li>
         <li><a href="#4-conclusion">Conclusion</a></li>
         <li><a href="#5-acknowledgements">Acknowledgement</a></li>
@@ -109,6 +112,8 @@ Below is an example of a Bitmap image (original image credit to **AleezuX)** tha
 
 ![Sprite visualize - Page 1.png](images/SpriteImage.png)
 
+<p align="right">(<a href="#table-of-contents">Back to Table of Contents</a>)</p>
+
 ## 1.2 Sprite in SplashKit
 
 SplashKit’s Sprite is an API that allows us to create images that we can easily move and animate. To create a Sprite, we need:
@@ -168,6 +173,8 @@ while(! gameWindow.CloseRequested) {
 
 Other features such as switching Sprites/Animation based on user input, interaction between Sprites,… will be discussed in the implementation part.
 
+<p align="right">(<a href="#table-of-contents">Back to Table of Contents</a>)</p>
+
 # 2. Game overview
 
 Below is some overview of the game of **AnimatedItemCatch** game.
@@ -217,6 +224,8 @@ Overall key features/concept of the **`AnimatedItemCatch`** class, which will 
         - If they are received or offscreen → remove items
         - If the received item is a Bomb → reduce the player’s lives.
         - If the received item is an Apple → increase the player’s score.
+
+<p align="right">(<a href="#table-of-contents">Back to Table of Contents</a>)</p>
 
 # 3. Implementation
 
@@ -539,6 +548,7 @@ In implementation, we will add the fields and methods for the player:
         }
         ```
         
+<p align="right">(<a href="#table-of-contents">Back to Table of Contents</a>)</p>
 
 ### 3.2 The Item Abstract Class and its Child Class
 
@@ -648,6 +658,8 @@ public override bool Explode()
     return true;
 }
 ```
+
+<p align="right">(<a href="#table-of-contents">Back to Table of Contents</a>)</p>
 
 ### 3.3 The AnimatedItemCatch Class
 
@@ -811,6 +823,7 @@ This class is where we manage the game, including the objects and their interact
             }
             ```
             
+<p align="right">(<a href="#table-of-contents">Back to Table of Contents</a>)</p>
 
 ## 3.4 The Main Program
 
@@ -850,6 +863,8 @@ public static void Main()
 }
 ```
 
+<p align="right">(<a href="#table-of-contents">Back to Table of Contents</a>)</p>
+
 # 4. Conclusion
 
 Screencast of the game while running can be found at: [Game with animation using Sprite in SplashKit - C#](https://youtu.be/l3gkwFXfVLA)
@@ -860,6 +875,8 @@ In conclusion, this tutorial provides:
 - Walkthrough of a game implementation, using Sprite for handling animation, movement and interaction between objects.
 
 The Sprite API provided by SplashKit is not limited to this tutorial. To keep this as a brief tutorial, I only implement some basic features and usage. For other features, please refer to SplashKit’s documentation.
+
+<p align="right">(<a href="#table-of-contents">Back to Table of Contents</a>)</p>
 
 # 5. Acknowledgements
 
@@ -879,3 +896,5 @@ Sound effects are downloaded from [Pixabay](https://pixabay.com/sound-effects/?
 
 - For the Apple’s sound (*receive-apple.mp3),* refer to “Take Item Sound Effect” by [zennnsounds](https://pixabay.com/users/zennnsounds-35538808/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163073) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163073)
 - For the Bomb’s sound (*explosion.mp3*), refer to “small explosion” by [Pixabay](https://pixabay.com/sound-effects/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=103779)
+
+<p align="right">(<a href="#readme-top">Back to Top</a>)</p>
